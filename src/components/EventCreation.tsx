@@ -41,7 +41,7 @@ const EventCreation = () => {
   const [seatsInput, setSeatsInput] = useState(0);
   const [priceInput, setPriceInput] = useState(0);
   const [events, setEvents] = useState(initialCategory);
-  const [file, setFile] = useState("");
+  const [imageURLInput, setImageURLInput] = useState("");
 
   const onCreateHandler = () => {
     //follows the structure defined in state/index.ts and the discord model
@@ -49,18 +49,18 @@ const EventCreation = () => {
         category: categoryInput,
         price: priceInput,
         quantity: seatsInput,
-        uri: file
+        uri: imageURLInput
     }));
     setCategoryInput("");
     setPriceInput(0);
     setSeatsInput(0);
   };
 
-  const fileChangeHandler = (event:any) => {
-    event.preventDefault();
-    console.log(event.target.files);
-    setFile(URL.createObjectURL(event.target.files[0]));
-  }
+  // const fileChangeHandler = (event:any) => {
+  //   event.preventDefault();
+  //   console.log(event.target.files);
+  //   setImageURL(URL.createObjectURL(event.target.files[0]));
+  // }
 
   return (
     <>
@@ -153,18 +153,24 @@ const EventCreation = () => {
         }}
         gap={3}
       >
-        <Box sx={{ width: "8rem", marginRight: "2rem" }}>
-          <Typography variant="h3">Upload image</Typography>
+        <Box sx={{ width: "8rem", marginRight: "3rem" }}>
+          <Typography variant="h3">Image URL</Typography>
         </Box>
-        <FormControl variant="filled" >
-          <InputBase
+        <FormControl variant="standard" fullWidth>
+          <InputLabel htmlFor="outline-imageurl">*Required</InputLabel>
+          <Input
             required
-            sx={{ width: "80%", height: "7rem" }}
+            id="outline-imageurl"
+            placeholder="Image URL"
+            sx={{ width: "80%", height: "4rem" }}
             onChange={(event) => {
-              fileChangeHandler(event);
+              setImageURLInput(event.target.value);
             }}
-            type = "file"
+            value={imageURLInput}
           />
+          <FormHelperText id="outline-imageurl-helper">
+            URL of image for event
+          </FormHelperText>
         </FormControl>
       </FlexBetween>
       <FlexBetween
@@ -178,7 +184,7 @@ const EventCreation = () => {
           <Typography variant="h3">Image Preview</Typography>
         </Box>
 
-          {file ? <Box><img src = {file} style = {{width: "20vh", height: "20vh"}}/></Box> : <></>}
+          {imageURLInput ? <Box><img src = {imageURLInput} style = {{width: "20vh", height: "20vh"}}/></Box> : <></>}
       </FlexBetween>
       <FlexBetween sx={{ justifyContent: "center", marginBottom: "10px" }}>
         <CustomButton text = {"Create"} onClick = {onCreateHandler}/>

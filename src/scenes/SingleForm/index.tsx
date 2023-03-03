@@ -37,18 +37,43 @@ const SingleForm = () => {
     );
     //   console.log(formSelected.available);
     const submitForm = async () => {
-        console.log(formSelected);
-        // const kms = await fetch("http:localhost4242/createConcert", {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json"
-        //     },
-        //     body: {
-        //       "performer": 
-        //     }
-
-        // });
-    };
+      console.log(formSelected);
+      const concertTimes = formSelected.schedules.map((schedule) => {
+          const ticketCatQty = formSelected.pricing.map((tcq) => {
+              return {
+                  category: tcq.category,
+                  quantity: tcq.quantity,
+                  price: tcq.price,
+                  uri: tcq.uri,
+              };
+          });
+          return {
+              dateTime: new Date(schedule.dateFrom),
+              ticketCatQty: ticketCatQty,
+          };
+      });
+      const formdata :any = {
+          performer: formSelected.performer,
+          title: formSelected.title,
+          symbol: formSelected.symbol,
+          description: formSelected.description,
+          venue: formSelected.location,
+          uri: formSelected.pricing[0].uri,
+          collectionNFT: "GsZJ11NToFfzJr2tjZfeCgTEG3saPnTYqTu1ry2P8zkQ",
+          concertTimes: concertTimes,
+      };
+      console.log(formdata);
+      const response = await fetch("http://localhost:4242/createConcert", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+            // "Access-Control-Allow-Origin" : "*"
+          },
+          body: JSON.stringify(formdata)
+      });
+      const lmao = await(response.json())
+      console.log(lmao)
+  };
 
     return (
         <Box

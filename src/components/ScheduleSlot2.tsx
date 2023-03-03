@@ -15,7 +15,6 @@ interface PropType{
 
 interface dateSlotType {
   dateFrom?: Date,
-  dateTo?: Date,
   id?: number
 }
 
@@ -23,7 +22,6 @@ interface dateSlotsType extends Array<dateSlotType>{}
 
 const ScheduleSlot2 = ({dateData}: PropType) => {
   const [dateValFrom, setDateValFrom] = useState(dateData.dateFrom);
-  const [dateValTo, setDateValTo] = useState(dateData.dateTo);
   const [identifier, setIdentifier] = useState(dateData.id);
 
   const dispatch = useAppDispatch();
@@ -31,7 +29,7 @@ const ScheduleSlot2 = ({dateData}: PropType) => {
   const dateDataList = formSelected.schedules;
 
   const initialInput: dateSlotsType = [
-    {dateFrom: dateValFrom, dateTo: dateValTo, id: identifier}
+    {dateFrom: dateValFrom, id: identifier}
   ];
   const [number, setNumber] = useState(initialInput);
   const theme = useTheme();
@@ -42,10 +40,13 @@ const ScheduleSlot2 = ({dateData}: PropType) => {
 //   console.log(formSelected.schedules);
  
   const addSlotHelper = (event:any) => {
+    
     event.preventDefault();
     //the function being passed thru onIncrease prop is addSlotHandler2
     // onIncrease(SlotHeight);
-    dispatch(setFormSchedules({dateFrom: new Date(), dateTo: new Date(), id: dateDataList[dateDataList.length - 1].id + 1}));
+    console.log("+++++++")
+    console.log(event)
+    dispatch(setFormSchedules({dateFrom: new Date(dateValFrom),  id: dateDataList[dateDataList.length - 1].id + 1}));
   }
 
   const removeSlotHelper = (event:any) => {
@@ -58,18 +59,21 @@ const ScheduleSlot2 = ({dateData}: PropType) => {
 
   return (
     <FlexBetween sx = {{flexDirection: "column"}}>
-        <FlexBetween sx = {{width: "100%",justifyContent:"center", position: "relative", marginBottom: "10px"}} gap = {5} key = {identifier.toString()}>
+        <FlexBetween sx = {{width: "100%",justifyContent:"left", position: "relative", marginBottom: "10px"}} gap = {5} key = {identifier.toString()}>
         <DateTimePicker
-        label="Start Date"
+        label="Date/Time"
         value = {dateValFrom}
         onChange={(newValue) => {
           if (newValue !== null && newValue !== undefined){
-            setDateValFrom(newValue);
+            console.log("=============")
+            console.log(newValue)
+            setDateValFrom(newValue._d);
+            console.log(newValue._d)
           }
         }}
         renderInput={(params) => <TextField {...params} />}
       />
-        <DateTimePicker
+        {/* <DateTimePicker
         label="End Date"
         value = {dateValTo}
         onChange={(newValue) => {
@@ -78,7 +82,7 @@ const ScheduleSlot2 = ({dateData}: PropType) => {
           }
         }}
         renderInput={(params) => <TextField {...params} />}
-      />
+      /> */}
       {identifier == 0 ? 
       <Button 
           variant = "contained"

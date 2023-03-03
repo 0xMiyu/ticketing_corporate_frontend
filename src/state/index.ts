@@ -10,7 +10,6 @@ const initialState = {
 };
 interface scheduleType{
     dateFrom: Date,
-    dateTo: Date,
     id: number
 }
 interface pricingType{
@@ -41,7 +40,7 @@ const formInitialState: formStateType = {
     symbol: "",
     description:"",
     location:"",
-    schedules: [{dateFrom: new Date(), dateTo: new Date(), id: 0}],
+    schedules: [{dateFrom: new Date(), id: 0}],
     pricing: [],
     royalties: [],
     available: false
