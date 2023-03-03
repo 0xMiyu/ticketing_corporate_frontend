@@ -1,0 +1,11 @@
+::-webkit-scrollbar{
+    width: "1px" !important;
+    background-color: "red" !important;
+    color: "yellow" !important;
+}
+
+::-webkit-scrollbar-track{
+    width: "1px" !important;
+    background-color: "red" !important;
+    color: "yellow" !important;
+}
